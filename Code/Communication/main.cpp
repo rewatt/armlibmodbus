@@ -12,9 +12,6 @@ using namespace std;
 int main ()
 {
 
-//        printf("StartTransaction begin\n");
-//        StartTransaction startTransaction;
-//        startTransaction.startexecute();
 
 //        printf("StopTransaction begin\n");
 //        StopTransaction stopTransaction;
@@ -24,10 +21,16 @@ int main ()
         PeriodicReadRegisters periodicReadRegisters;
         periodicReadRegisters.readRegistersexecute();
 
-//        printf("ReadStateGun begin\n");
-//        ReadStateGun readStateGun;
-//        readStateGun.readStateGunexecute();
 
+//        printf("StartTransaction begin\n");
+//        StartTransaction startTransaction;
+//        startTransaction.startexecute();
+
+        printf("ReadStateGun begin\n");
+        ReadStateGun readStateGun;
+        readStateGun.readStateGunexecute();
+
+        printf("ReadStateFault begin\n");
         ReadStateFault readStateFault;
         readStateFault.readStateFaultexecute();
 

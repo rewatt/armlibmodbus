@@ -63,12 +63,12 @@ void PeriodicReadRegisters::readRegistersexecute() {
         //w_set_maxpower   8      读写       8x2       1            0-1000功率千分比
         //w_class_gun      9      读写       8x2       1            枪连接类型,0:A连接,1:B连接,2:C连接
         uint16_t w_id_pile[8] = {12, 13, 14, 15, 16, 17, 18, 19};
-        uint16_t w_set_maxpower[1] = {266}; //千分之10  千分之20
+        uint16_t w_set_maxpower[1] = {500}; //千分比
         uint16_t w_class_gun[1] = {2};
 
-        rc = modbus_write_registers(ctx, 0, sizeof(w_id_pile), w_id_pile);
-        rc = modbus_write_register(ctx, 8, 100);
-        rc = modbus_write_register(ctx,9,2);  //fuzhi 停止充电
+        //rc = modbus_write_registers(ctx, 0, sizeof(w_id_pile), w_id_pile);
+        rc = modbus_write_register(ctx, 8, 500);
+        //rc = modbus_write_register(ctx,9,2);
 
         //name:读取寄存器[MODBUS_FC_READ_HOLDING_REGISTERS] 0x03
         //nb 不能大于125

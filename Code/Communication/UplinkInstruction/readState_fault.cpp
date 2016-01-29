@@ -50,12 +50,27 @@ void ReadStateFault::readStateFaultexecute() {
             res = 1;
         }
 
-        //读取枪的状态[1]区输入继电器读功能码 0x02
+        //读取故障的状态[1]区输入继电器读功能码 0x02
         uint16_t r_state_fault[8]={0,0,0,0,0,0,0,0};
+        uint16_t r_state_charge[1]={0};
+        rc = modbus_read_input_registers(ctx,8,1,r_state_charge);
         rc = modbus_read_input_registers(ctx,9,8,r_state_fault);
+
+        //枪充电状态：
+        // 0-未连接；
+        // 1-连接车辆；
+        // 2-充电引导结束；
+        // 3-充电中；
+        // 4-充电结束；
+        // 5-错误。
+        for (i = 0; i < 1; i++) {
+            printf("r_state_charge:registers[%d]=%d (0x%X)\n", i, r_state_charge[i], r_state_charge[i]);
+        }
         for (i = 0; i < 8; i++) {
             printf("r_state_fault:registers[%d]=%d (0x%X)\n", i, r_state_fault[i], r_state_fault[i]);
         }
+
+
     }
 
 }

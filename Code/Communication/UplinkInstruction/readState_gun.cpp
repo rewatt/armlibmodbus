@@ -50,7 +50,7 @@ void ReadStateGun::readStateGunexecute() {
             res = 1;
         }
 
-        //读取枪的状态[1]区输入继电器读功能码 0x02
+        //读取枪的状态[1]区输入继电器读功能码 0x02  0:未插枪 1:已插枪
         uint8_t r_state_gun[1]={0};
         rc = modbus_read_input_bits(ctx,0,1,r_state_gun);
         for (i = 0; i < 1; i++) {
