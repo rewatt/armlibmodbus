@@ -21,7 +21,7 @@ void PeriodicReadRegisters::readRegistersexecute() {
     uint32_t tv_sec = 0;
     uint32_t tv_usec = 0;
 
-    ctx = modbus_new_rtu("/dev/ttySP2", 9600, 'N', 8, 1);
+    ctx = modbus_new_rtu("/dev/ttySP3", 9600, 'N', 8, 1);
 
     if (NULL == ctx) {
         printf("Unable to create libmodbus context\n");
