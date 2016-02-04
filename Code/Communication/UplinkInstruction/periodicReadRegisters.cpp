@@ -21,7 +21,7 @@ void PeriodicReadRegisters::readRegistersexecute() {
     uint32_t tv_sec = 0;
     uint32_t tv_usec = 0;
 
-    ctx = modbus_new_rtu("/dev/ttySP3", 9600, 'N', 8, 1);
+    ctx = modbus_new_rtu("/dev/ttySP2", 9600, 'N', 8, 1);
 
     if (NULL == ctx) {
         printf("Unable to create libmodbus context\n");
@@ -30,7 +30,7 @@ void PeriodicReadRegisters::readRegistersexecute() {
     else {
         printf("created libmodbus context\n");
         modbus_set_debug(ctx, TRUE);
-        rc = modbus_set_slave(ctx, 1);
+        rc = modbus_set_slave(ctx, 1);//读或者写操作，注意要先设置0:r 1:w
         printf("modbus_set_slave return: %d\n", rc);
         if (rc != 0) {
             printf("modbus_set_slave: %s \n", modbus_strerror(errno));
@@ -65,16 +65,19 @@ void PeriodicReadRegisters::readRegistersexecute() {
         uint16_t w_id_pile[8] = {12, 13, 14, 15, 16, 17, 18, 19};
         uint16_t w_set_maxpower[1] = {500}; //千分比
         uint16_t w_class_gun[1] = {2};
+        uint16_t w_addr_charge[1] = {1};
 
         //rc = modbus_write_registers(ctx, 0, sizeof(w_id_pile), w_id_pile);
         rc = modbus_write_register(ctx, 8, 500);
-        //rc = modbus_write_register(ctx,9,2);
+        rc = modbus_write_register(ctx,9,2);
+        //rc = modbus_write_register(ctx,10,1);
 
         //name:读取寄存器[MODBUS_FC_READ_HOLDING_REGISTERS] 0x03
         //nb 不能大于125
         rc = modbus_read_registers(ctx, 0, 8, w_id_pile);
         rc = modbus_read_registers(ctx, 8, 1, w_set_maxpower);
         rc = modbus_read_registers(ctx, 9, 1, w_class_gun);
+        rc = modbus_read_registers(ctx,10, 1, w_addr_charge);
 
         for (i = 0; i < 8; i++) {
             printf("w_id_pile:reg[%d]=%d (0x%X)\n", i, w_id_pile[i], w_id_pile[i]);
@@ -84,6 +87,9 @@ void PeriodicReadRegisters::readRegistersexecute() {
         }
         for (i = 0; i < 1; i++) {
             printf("w_class_gun:reg[%d]=%d (0x%X)\n", i, w_class_gun[i], w_class_gun[i]);
+        }
+        for (i = 0; i < 1; i++) {
+            printf("w_addr_charge:reg[%d]=%d (0x%X)\n", i, w_addr_charge[i], w_addr_charge[i]);
         }
 
         std::cout << "--------modbus_write_register() and modbus_read_registers()---end-------------------" <<
